@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -119,7 +120,13 @@ func init() {
 			continue
 		}
 		key := strings.TrimSpace(vars[0])
-		config.params[key] = strings.TrimSpace(vars[1])
+		value := strings.TrimSpace(vars[1])
+		if _, err := strconv.QuotedPrefix(value); err == nil {
+			unquoted := value[1 : len(value)-1]
+			config.params[key] = unquoted
+		} else {
+			config.params[key] = vars[1]
+		}
 	}
 	log.Println("Template:", config.template)
 	log.Println("Inkscape:", config.inkscape)

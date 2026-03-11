@@ -231,6 +231,7 @@ func main() {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
+		log.Println("meta:", buff.String())
 		log.Fatal(err)
 	}
 }
