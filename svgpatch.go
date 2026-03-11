@@ -101,14 +101,17 @@ func replaceTextSpansByID(data []byte, replacements map[string]string) ([]byte, 
 	return buf.Bytes(), processed, nil
 }
 
-// tspanまたはspanか判定
+// tspanまたはflowParaか判定
 func isTextSpan(localName string) bool {
-	return strings.ToLower(localName) == "tspan" ||
-		strings.ToLower(localName) == "span"
+	name := strings.ToLower(localName)
+	return name == "tspan" || name == "flowpara"
 }
 
 // 要素終了までスキップし、置換テキストを挿入
 func skipToEndElement(dec *xml.Decoder, enc *xml.Encoder, startName xml.Name, replacementText string) {
+	// エスケープ解除
+	//replacementText = strings.ReplaceAll(replacementText, `\\n`, "<br/>")
+	replacementText = strings.ReplaceAll(replacementText, `\n`, "\n")
 	// 置換テキスト出力
 	enc.EncodeToken(xml.CharData([]byte(replacementText)))
 
