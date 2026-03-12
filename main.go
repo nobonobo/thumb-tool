@@ -114,7 +114,7 @@ func main() {
 	if err := patchSVG(svgPath, svgOutPath); err != nil {
 		log.Fatal(err)
 	}
-	cmd = exec.Command("ffmpeg",
+	cmd = exec.Command(config.ffmpeg,
 		"-hide_banner", "-loglevel", "error",
 		"-ss", fmt.Sprintf("%.3f", float64(config.offsetSec)/float64(time.Second)), // 高速キーシーク
 		"-i", inputPath,
@@ -143,7 +143,7 @@ func main() {
 		log.Fatal(err)
 	}
 	width := video.Height * 16 / 9
-	cmd = exec.Command("ffmpeg",
+	cmd = exec.Command(config.ffmpeg,
 		"-hide_banner", "-loglevel", "error",
 		"-i", pngPath,
 		"-i", overlayPath,
@@ -160,7 +160,7 @@ func main() {
 	if err := cmd.Run(); err != nil {
 		log.Fatal(err)
 	}
-	cmd = exec.Command("ffmpeg",
+	cmd = exec.Command(config.ffmpeg,
 		"-hide_banner", "-loglevel", "error",
 		"-loop", "1",
 		"-t", "10",
