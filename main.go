@@ -222,6 +222,7 @@ func main() {
 	}
 	cmd = exec.Command(
 		config.youtubeuploader,
+		"-quiet",
 		"-cache", filepath.Join(config.cacheDir, "request.token"),
 		"-secrets", config.secrets,
 		"-metaJSON", metaInfoPath,
